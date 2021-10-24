@@ -35,9 +35,6 @@ function Movie() {
   const apiKey = "3b4d3a3f620713714120649bf57a2d7f";
   const language = "ja";
 
-  const array = [1, 1, 2];
-  array.map(item => item * 2);
-
   // // 映画サンプル情報の取得
   useEffect(() => {
     fetch(`https://api.themoviedb.org/3/movie/550?api_key=${apiKey}&language=${language}`, {method: 'GET'})
@@ -68,6 +65,9 @@ function Movie() {
             <img src={`https://image.tmdb.org/t/p/w185/${movie.poster_path}`} alt="映画ポスター"></img>
             </>
         }) }</ul>
+        <div className="min-h-screen flex justify-center items-center">
+          Weather Application
+        </div>
       </div>
       
   )
