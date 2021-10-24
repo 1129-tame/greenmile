@@ -31,9 +31,12 @@ function Movie() {
   }
 
   const [movie, setMovie] = useState<MovieModel>();
-  const [movies, setMovies] = useState<any>();
+  const [movies, setMovies] = useState<[]>([]);
   const apiKey = "3b4d3a3f620713714120649bf57a2d7f";
   const language = "ja";
+
+  const array = [1, 1, 2];
+  array.map(item => item * 2);
 
   // // 映画サンプル情報の取得
   useEffect(() => {
@@ -59,8 +62,12 @@ function Movie() {
       <div>
           <h2>{movie?.original_title}</h2>
           <h2>人気映画一覧</h2>
-          <ul>{ movies.map((movie: MovieModel) =>  {return <div>{movie.original_title}</div>}) }</ul>
-          { console.log(movies) }
+          <ul>{ movies.map((movie: MovieModel) =>  {
+            return <>
+            <div>{movie.original_title}</div>
+            <img src={`https://image.tmdb.org/t/p/w185/${movie.poster_path}`} alt="映画ポスター"></img>
+            </>
+        }) }</ul>
       </div>
       
   )
