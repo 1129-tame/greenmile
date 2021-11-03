@@ -2,35 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios';
 import { useForm, SubmitHandler } from "react-hook-form";
 import MovieList from './MovieList'
-
-interface MovieModel {
-  adult: boolean,
-  backdrop_path: string | null,
-  belongs_to_collection: null | object,
-  budget: number,
-  genres: [],
-  homepage: string | null,
-  id: number,
-  imdb_id: string | null, // minLength: 9 maxLength: 9// pattern: ^tt[0-9]{7}
-  original_language: string,
-  original_title: string,
-  overview: string | null
-  popularity: number
-  poster_path: string | null,
-  production_companies: [], //array[object]
-  production_countries: [], //array[object]
-  release_date: string, // format: date
-  revenue: number,
-  runtime: number | null,
-  spoken_languages: [], //array[object]
-  status: string, // Allowed Values: Rumored, Planned, In Production, Post Production, Released, Canceled
-  tagline: string | null
-  title: string,
-  video: boolean,
-  vote_average: number
-  vote_count: number,
-}
-
+import { MovieModel } from '../component-model/movie'
 interface Inputs {
   name: string,
 }
@@ -49,27 +21,18 @@ function Movie() {
   useEffect(() => {
     axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=${language}`)
       .then(res => {
-        const movies = res.data.results;
-        console.log(movies);
-        
+        const movies = res.data.results;        
         setPopMovies(movies);
       })
     }, [])
 
-    // GET /{lang?}/API/Search/{apiKey}/{expression}
     // 映画検索api
     useEffect(() => {
       async function feachData() {
         const res = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${language}&query=${expression}`)
         setSerchMovies(res.data.results);
-        console.log(serchMovies);
       }
       feachData()
-      // axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${language}&query=${expression}`)
-      //   .then(res => {
-      //     setSerchMovies(res.data.results);
-      //     console.log(serchMovies);
-      //   })
     }, [expression])
 
   return (
@@ -104,10 +67,14 @@ function Movie() {
 
           <div className="min-h-screen flex justify-center items-center">
             Weather Application
-            <MovieList
-              movies={popMovies}
-            />
+            
           </div>
+          <MovieList
+            movies={popMovies}
+          />
+          <MovieList
+            movies={serchMovies}
+          />
         </div>
       </div>
       
