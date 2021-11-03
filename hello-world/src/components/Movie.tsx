@@ -30,19 +30,19 @@ function Movie() {
     vote_count: number,
   }
 
-  const [movie, setMovie] = useState<MovieModel>();
+  // const [movie, setMovie] = useState<MovieModel>();
   const [movies, setMovies] = useState<[]>([]);
   const apiKey = "3b4d3a3f620713714120649bf57a2d7f";
   const language = "ja";
 
   // // 映画サンプル情報の取得
-  useEffect(() => {
-    fetch(`https://api.themoviedb.org/3/movie/550?api_key=${apiKey}&language=${language}`, {method: 'GET'})
-    .then(res => res.json())
-    .then(data => {
-        setMovie(data);
-    })
-  },[])
+  // useEffect(() => {
+  //   fetch(`https://api.themoviedb.org/3/movie/550?api_key=${apiKey}&language=${language}`, {method: 'GET'})
+  //   .then(res => res.json())
+  //   .then(data => {
+  //       setMovie(data);
+  //   })
+  // },[])
 
   // 人気映画一覧情報
   useEffect(() => {
@@ -57,31 +57,36 @@ function Movie() {
 
   return (
       <div>
+
         <div className="container mx-auto">
-          <h1 className="text-4xl text-green-700 text-center font-semibold">Hello Tailwind</h1>
-          <input type="text" />
-          <button className="bg-indigo-700 font-semibold text-white py-2 px-4 rounded hover:bg-red-500 focus:outline-none focus:shadow-outline duration-1000">検索</button>
+          <h1 className="text-4xl text-green-700 text-center font-semibold">Want Movie!</h1>
+          <div className="flow-root">
+            <div className="my-4 block text-center px-4 py-2">
+              <input type="text" className="w-4/5 h-6 p-3 rounded-lg border-black-dotted" />
+              <button className="bg-indigo-700 font-semibold text-white py-2 px-4 rounded hover:bg-red-500 focus:outline-none focus:shadow-outline duration-1000 m-2">検索</button>
+            </div>
+          </div>
           <h1 className="text-4xl text-black text-center font-semibold">人気映画一覧</h1>
           <div className="group m-10 p-10 border hover:bg-gray-100">
           {/* <p className="font-black group-hover:text-red-900">New Project</p>
           <p className="font-black group-hover:text-blue-900">Next Project</p> */}
         
-          <div className="grid gap-4 grid-cols-5">
-            { movies.map((movie: MovieModel) =>  {
-              return <>
-                <div className="">
-                  <img className="shadow-md" src={`https://image.tmdb.org/t/p/w185/${movie.poster_path}`} alt="映画ポスター"></img>
-                  <h3>{movie.title}</h3>
-                </div>
-              </>
-            }) }
+            <div className="grid gap-4 grid-cols-5">
+              { movies.map((movie: MovieModel) =>  {
+                return <>
+                  <div className="">
+                    <img className="shadow-md hover:opacity-50" src={`https://image.tmdb.org/t/p/w185/${movie.poster_path}`} alt="映画ポスター"></img>
+                    <h3>{movie.title}</h3>
+                  </div>
+                </>
+              }) }
+            </div>
+          </div>  
+
+          <div className="min-h-screen flex justify-center items-center">
+            Weather Application
           </div>
         </div>
-
-        <div className="min-h-screen flex justify-center items-center">
-          Weather Application
-        </div>
-      </div>
       </div>
       
   )
