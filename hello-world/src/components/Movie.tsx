@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import axios from 'axios';
 
 function Movie() {
 
@@ -43,17 +44,28 @@ function Movie() {
   //       setMovie(data);
   //   })
   // },[])
-
+  
   // 人気映画一覧情報
   useEffect(() => {
-    fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=${language}`, {method: 'GET'})
-    .then(res => res.json())
-    .then(data => {
-        console.log(data);
-        console.log(data.results);
-        setMovies(data.results);
-    })
-  },[])
+    axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=${language}`)
+      .then(res => {
+        const movies = res.data.results;
+        console.log(movies);
+        
+        setMovies(movies);
+      })
+    }, [])
+
+
+  // useEffect(() => {
+  //   fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=${language}`, {method: 'GET'})
+  //   .then(res => res.json())
+  //   .then(data => {
+  //       console.log(data);
+  //       console.log(data.results);
+  //       setMovies(data.results);
+  //   })
+  // },[])
 
   return (
       <div>
