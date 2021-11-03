@@ -35,24 +35,14 @@ interface Inputs {
 }
 
 function Movie() {
-
-
-
   // const [movie, setMovie] = useState<MovieModel>();
   const { register, handleSubmit } = useForm();
-  const onSubmit: SubmitHandler<Inputs> = data => console.log(data.name);
-  const [movies, setMovies] = useState<[]>([]);
+  const [popMovies, setPopMovies] = useState<[]>([]);
+  const [serchMovies, setSerchMovies] = useState<[]>([]);
+  const [expression, setExpression] = useState<string>();
+  const onSubmit: SubmitHandler<Inputs> = data => setExpression(data.name);
   const apiKey = "3b4d3a3f620713714120649bf57a2d7f";
   const language = "ja";
-
-  // // 映画サンプル情報の取得
-  // useEffect(() => {
-  //   fetch(`https://api.themoviedb.org/3/movie/550?api_key=${apiKey}&language=${language}`, {method: 'GET'})
-  //   .then(res => res.json())
-  //   .then(data => {
-  //       setMovie(data);
-  //   })
-  // },[])
 
   // 人気映画一覧情報
   useEffect(() => {
@@ -61,9 +51,25 @@ function Movie() {
         const movies = res.data.results;
         console.log(movies);
         
-        setMovies(movies);
+        setPopMovies(movies);
       })
     }, [])
+
+    // GET /{lang?}/API/Search/{apiKey}/{expression}
+    // 映画検索api
+    useEffect(() => {
+      async function feachData() {
+        const res = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${language}&query=${expression}`)
+        setSerchMovies(res.data.results);
+        console.log(serchMovies);
+      }
+      feachData()
+      // axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${language}&query=${expression}`)
+      //   .then(res => {
+      //     setSerchMovies(res.data.results);
+      //     console.log(serchMovies);
+      //   })
+    }, [expression])
 
   return (
       <div>
@@ -84,7 +90,7 @@ function Movie() {
           <h1 className="text-4xl text-black text-center font-semibold">人気映画一覧</h1>
           <div className="group m-10 p-10 border hover:bg-gray-100">        
             <div className="grid gap-4 grid-cols-5">
-              { movies.map((movie: MovieModel) =>  {
+              { popMovies.map((movie: MovieModel) =>  {
                 return <>
                   <div className="">
                     <img className="shadow-md hover:opacity-50" src={`https://image.tmdb.org/t/p/w185/${movie.poster_path}`} alt="映画ポスター"></img>
