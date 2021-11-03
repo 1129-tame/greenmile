@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios';
 import { useForm, SubmitHandler } from "react-hook-form";
+import MovieList from './MovieList'
 
 interface MovieModel {
   adult: boolean,
@@ -103,6 +104,9 @@ function Movie() {
 
           <div className="min-h-screen flex justify-center items-center">
             Weather Application
+            <MovieList
+              movies={popMovies}
+            />
           </div>
         </div>
       </div>
