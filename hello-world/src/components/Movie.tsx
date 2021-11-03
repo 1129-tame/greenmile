@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import axios from 'axios';
 import { useForm, SubmitHandler } from "react-hook-form";
 import MovieList from './MovieList'
-import { MovieModel } from '../component-model/movie'
 interface Inputs {
   name: string,
 }
@@ -50,24 +49,6 @@ function Movie() {
                 <button type="submit" className="bg-indigo-700 font-semibold text-white py-2 px-4 rounded hover:bg-red-500 focus:outline-none focus:shadow-outline duration-1000 m-2">検索</button>
               </form>
             </div>
-          </div>
-          <h1 className="text-4xl text-black text-center font-semibold">人気映画一覧</h1>
-          <div className="group m-10 p-10 border hover:bg-gray-100">        
-            <div className="grid gap-4 grid-cols-5">
-              { popMovies.map((movie: MovieModel) =>  {
-                return <>
-                  <div className="">
-                    <img className="shadow-md hover:opacity-50" src={`https://image.tmdb.org/t/p/w185/${movie.poster_path}`} alt="映画ポスター"></img>
-                    <h3>{movie.title}</h3>
-                  </div>
-                </>
-              }) }
-            </div>
-          </div>  
-
-          <div className="min-h-screen flex justify-center items-center">
-            Weather Application
-            
           </div>
           <MovieList
             movies={popMovies}
