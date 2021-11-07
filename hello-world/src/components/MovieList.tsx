@@ -4,6 +4,7 @@ import { MovieModel } from '../component-model/movie'
 // 受け取る props の型を定義
 interface MovieListProps {
  movies: [];
+ title: string;
 }
 
 const MovieList = (
@@ -11,7 +12,7 @@ const MovieList = (
 ) => {
     return (
     <>
-        <h1 className="text-4xl text-black text-center font-semibold">人気映画一覧</h1>
+        <h1 className="text-4xl text-black text-center font-semibold">{`${props.title}一覧`}</h1>
           <div className="group m-10 p-10 border hover:bg-gray-100">        
             <div className="grid gap-4 grid-cols-5">
               { props.movies.map((movie: MovieModel) =>  {
