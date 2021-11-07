@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios';
 import { useForm, SubmitHandler } from "react-hook-form";
-import MovieList from './MovieList'
+import ReactPaginate from 'react-paginate';
+import MovieList from './MovieList';
 interface Inputs {
   name: string,
 }
@@ -12,6 +13,10 @@ function Movie() {
   const [popMovies, setPopMovies] = useState<[]>([]);
   const [serchMovies, setSerchMovies] = useState<[]>([]);
   const [expression, setExpression] = useState<string>('');
+
+  // page nation
+  // TODO: pagenation の実装
+  const [pageCount, setPageCount] = useState<number>(1);
   
   const apiKey = "3b4d3a3f620713714120649bf57a2d7f";
   const language = "ja";
@@ -36,6 +41,7 @@ function Movie() {
         const res = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${language}&query=${serchName}`)
         
         setSerchMovies(res.data.results);
+        // setPageCount(res.page);
       }
       feachData();
     }
@@ -50,6 +56,7 @@ function Movie() {
               <form onSubmit={handleSubmit(onSubmit)}>
                 <input 
                   type="text"
+                  placeholder='映画・キャスト検索'
                   className="w-4/5 h-6 p-3 rounded-lg border-black-dotted" 
                   {...register("name")}
                 />
@@ -61,6 +68,14 @@ function Movie() {
             movies={serchMovies}
             title='検索結果'
           />
+          <div className="text-4xl text-green-700 text-center font-semibold">
+            <ReactPaginate
+              pageCount={5}
+              pageRangeDisplayed={2}
+              marginPagesDisplayed={2}
+            />
+          </div>
+          
         </div>
       </div>
     );
