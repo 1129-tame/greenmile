@@ -10,25 +10,35 @@ interface Inputs {
 function Movie() {
   // const [movie, setMovie] = useState<MovieModel>();
   const { register, handleSubmit } = useForm();
-  const [popMovies, setPopMovies] = useState<[]>([]);
-  const [serchMovies, setSerchMovies] = useState<[]>([]);
-  const [expression, setExpression] = useState<string>('');
+  const [popMovies, setPopMovies] = useState<[]>([]); // 人気映画
+  const [serchMovies, setSerchMovies] = useState<[]>([]); // 検索した映画
+  const [expression, setExpression] = useState<string>(''); // 検索したワード
+  const [pageNumber, setPageNumber] = useState<number>(1);
 
-  // page nation
+  // pagenation
   // TODO: pagenation の実装
   const [pageCount, setPageCount] = useState<number>(1);
   
+  // API document
+  // https://www.themoviedb.org/documentation/api
   const apiKey = "3b4d3a3f620713714120649bf57a2d7f";
   const language = "ja";
 
   // 人気映画一覧情報
   useEffect(() => {
-    axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=${language}`)
+    axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=${language}&page=${pageNumber}`)
       .then(res => {
         const movies = res.data.results;        
         setPopMovies(movies);
       })
     }, [])
+
+    const handlePageClick = () => {
+      // data: {selected: number}
+      // ) => {
+      // setPageNumber(data['selected']);
+      // return pageNumber;
+    }
 
     // 映画検索api
     const onSubmit: SubmitHandler<Inputs> = (
@@ -38,7 +48,7 @@ function Movie() {
       
       setExpression(serchName);
       async function feachData() {
-        const res = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${language}&query=${serchName}`)
+        const res = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${language}&query=${serchName}&page=${pageNumber}`)
         
         setSerchMovies(res.data.results);
         // setPageCount(res.page);
@@ -50,7 +60,7 @@ function Movie() {
     return (
       <div>
         <div className="container mx-auto">
-          <h1 className="text-4xl text-green-700 text-center font-semibold">Want Movie!</h1>
+          <h1 className="text-4xl text-green-700 text-center font-semibold">Movie</h1>
           <div className="flow-root">
             <div className="my-4 block text-center px-4 py-2">
               <form onSubmit={handleSubmit(onSubmit)}>
@@ -70,9 +80,10 @@ function Movie() {
           />
           <div className="text-4xl text-green-700 text-center font-semibold">
             <ReactPaginate
-              pageCount={5}
+              pageCount={5} //総ページ数。今回は一覧表示したいデータ数 / 1ページあたりの表示数としてます。
               pageRangeDisplayed={2}
               marginPagesDisplayed={2}
+              onPageChange={handlePageClick}
             />
           </div>
           
@@ -84,7 +95,7 @@ function Movie() {
   return (
       <div>
         <div className="container mx-auto">
-          <h1 className="text-4xl text-green-700 text-center font-semibold">Want Movie!</h1>
+          <h1 className="text-4xl text-green-700 text-center font-semibold">Movie</h1>
           <div className="flow-root">
             <div className="my-4 block text-center px-4 py-2">
               <form onSubmit={handleSubmit(onSubmit)}>
