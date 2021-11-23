@@ -19,7 +19,7 @@ function Movie() {
 
   // pagenation
   // TODO: pagenation の実装
-  const [pageCount, setPageCount] = useState<number>(1);
+  // const [pageCount, setPageCount] = useState<number>(1);
   
   // API document
   // https://www.themoviedb.org/documentation/api
@@ -32,6 +32,7 @@ function Movie() {
       .then(res => {
         const movies = res.data.results;        
         setPopMovies(movies);
+        setTotalPages(res.data.total_pages);
       })
     }, [pageNumber])
 
@@ -43,6 +44,7 @@ function Movie() {
       // クリックした部分のページ数が{selected: 2}のような形で返ってくる
     }
 
+    // 映画検索api
     useEffect(() => {
       axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${language}&query=${expression}&page=${pageNumber + 1}`)
         .then(res => {
@@ -57,16 +59,7 @@ function Movie() {
     const onSubmit: SubmitHandler<Inputs> = (
       data
     ) => {
-      const serchName = data.name
-      
-      setExpression(serchName);
-      // async function feachData() {
-      //   const res = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${language}&query=${serchName}&page=${pageNumber}`)
-        
-      //   setSerchMovies(res.data.results);
-      //   // setPageCount(res.page);
-      // }
-      // feachData();
+      setExpression(data.name);
     }
 
   if (expression !== '') {
@@ -80,7 +73,7 @@ function Movie() {
                 <input 
                   type="text"
                   placeholder='映画・キャスト検索'
-                  className="w-4/5 h-6 p-3 rounded-lg border-black-dotted" 
+                  className="w-4/5 h-6 p-3 rounded-lg border-black-dotted　text-2xl" 
                   {...register("name")}
                 />
                 <button type="submit" className="bg-indigo-700 font-semibold text-white py-2 px-4 rounded hover:bg-red-500 focus:outline-none focus:shadow-outline duration-1000 m-2">検索</button>
@@ -91,24 +84,25 @@ function Movie() {
             movies={serchMovies}
             title='検索結果'
           />
-          <div className="text-4xl text-green-700 text-center font-semibold">
+          <div className="flex justify-center my-8">
             <ReactPaginate
               previousLabel={'<'}
               nextLabel={'>'}
               breakLabel={'...'}
               pageCount={totalpages} //総ページ数。今回は一覧表示したいデータ数 / 1ページあたりの表示数としてます。
               pageRangeDisplayed={2}
-              marginPagesDisplayed={2}
+              marginPagesDisplayed={1}
               onPageChange={handlePageClick}
-              containerClassName={'pagination'} // ページネーションであるulに着くクラス名
-              // subContainerClassName={'pages pagination'}
-              activeClassName={'active'} // アクティブなページのliに着くクラス名
-              previousClassName={'pagination__previous'} // 「<」のliに着けるクラス名
-              nextClassName={'pagination__next'} // 「>」のliに着けるクラス名
-              disabledClassName={'pagination__disabled'} // 使用不可の「<,>」に着くクラス名
+              containerClassName={'flex-1 flex justify-center rounded-md shadow-sm '} // ページネーションであるulに着くクラス名
+              pageClassName={'text-2xl bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-semibold'}
+              breakClassName={'text-2xl relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700'}
+              activeClassName={'text-2xl z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium'} // アクティブなページのliに着くクラス名
+              previousClassName={'text-2xl relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50'} // 「<」のliに着けるクラス名
+              nextClassName={'text-2xl relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50'} // 「>」のliに着けるクラス名
+              // TODO: 使用不可のクラス付与
+              // disabledClassName={'pagination__disabled'} // 使用不可の「<,>」に着くクラス名
             />
           </div>
-          
         </div>
       </div>
     );
@@ -134,6 +128,25 @@ function Movie() {
             movies={popMovies}
             title='人気映画'
           />
+          <div className="flex justify-center my-8">
+            <ReactPaginate
+              previousLabel={'<'}
+              nextLabel={'>'}
+              breakLabel={'...'}
+              pageCount={totalpages} //総ページ数。今回は一覧表示したいデータ数 / 1ページあたりの表示数としてます。
+              pageRangeDisplayed={2}
+              marginPagesDisplayed={1}
+              onPageChange={handlePageClick}
+              containerClassName={'flex-1 flex justify-center rounded-md shadow-sm '} // ページネーションであるulに着くクラス名
+              pageClassName={'text-2xl bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-semibold'}
+              breakClassName={'text-2xl relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700'}
+              activeClassName={'text-2xl z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium'} // アクティブなページのliに着くクラス名
+              previousClassName={'text-2xl relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50'} // 「<」のliに着けるクラス名
+              nextClassName={'text-2xl relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50'} // 「>」のliに着けるクラス名
+              // TODO: 使用不可のクラス付与
+              // disabledClassName={'pagination__disabled'} // 使用不可の「<,>」に着くクラス名
+            />
+          </div>
         </div>
       </div>
   )
