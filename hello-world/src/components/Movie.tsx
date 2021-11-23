@@ -13,7 +13,9 @@ function Movie() {
   const [popMovies, setPopMovies] = useState<[]>([]); // 人気映画
   const [serchMovies, setSerchMovies] = useState<[]>([]); // 検索した映画
   const [expression, setExpression] = useState<string>(''); // 検索したワード
-  const [pageNumber, setPageNumber] = useState<number>(1);
+
+  const [pageNumber, setPageNumber] = useState<number>(0); // 表示するページ
+  const [totalpages, setTotalPages] = useState<number>(1); // 合計のページ数
 
   // pagenation
   // TODO: pagenation の実装
@@ -26,19 +28,30 @@ function Movie() {
 
   // 人気映画一覧情報
   useEffect(() => {
-    axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=${language}&page=${pageNumber}`)
+    axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=${language}&page=${pageNumber + 1}`)
       .then(res => {
         const movies = res.data.results;        
         setPopMovies(movies);
       })
-    }, [])
+    }, [pageNumber])
 
-    const handlePageClick = () => {
-      // data: {selected: number}
-      // ) => {
-      // setPageNumber(data['selected']);
-      // return pageNumber;
+    // pagenation 時に発火する関数
+    const handlePageClick = (data: any)  => {
+      setPageNumber(data['selected']);
+      console.log(data['selected']);
+      
+      // クリックした部分のページ数が{selected: 2}のような形で返ってくる
     }
+
+    useEffect(() => {
+      axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${language}&query=${expression}&page=${pageNumber + 1}`)
+        .then(res => {
+          setSerchMovies(res.data.results);
+          setTotalPages(res.data.total_pages);
+          console.log(res.data);
+          
+        })
+      }, [pageNumber, expression])
 
     // 映画検索api
     const onSubmit: SubmitHandler<Inputs> = (
@@ -47,13 +60,13 @@ function Movie() {
       const serchName = data.name
       
       setExpression(serchName);
-      async function feachData() {
-        const res = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${language}&query=${serchName}&page=${pageNumber}`)
+      // async function feachData() {
+      //   const res = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=${language}&query=${serchName}&page=${pageNumber}`)
         
-        setSerchMovies(res.data.results);
-        // setPageCount(res.page);
-      }
-      feachData();
+      //   setSerchMovies(res.data.results);
+      //   // setPageCount(res.page);
+      // }
+      // feachData();
     }
 
   if (expression !== '') {
@@ -80,10 +93,19 @@ function Movie() {
           />
           <div className="text-4xl text-green-700 text-center font-semibold">
             <ReactPaginate
-              pageCount={5} //総ページ数。今回は一覧表示したいデータ数 / 1ページあたりの表示数としてます。
+              previousLabel={'<'}
+              nextLabel={'>'}
+              breakLabel={'...'}
+              pageCount={totalpages} //総ページ数。今回は一覧表示したいデータ数 / 1ページあたりの表示数としてます。
               pageRangeDisplayed={2}
               marginPagesDisplayed={2}
               onPageChange={handlePageClick}
+              containerClassName={'pagination'} // ページネーションであるulに着くクラス名
+              // subContainerClassName={'pages pagination'}
+              activeClassName={'active'} // アクティブなページのliに着くクラス名
+              previousClassName={'pagination__previous'} // 「<」のliに着けるクラス名
+              nextClassName={'pagination__next'} // 「>」のliに着けるクラス名
+              disabledClassName={'pagination__disabled'} // 使用不可の「<,>」に着くクラス名
             />
           </div>
           
