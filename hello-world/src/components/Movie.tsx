@@ -69,11 +69,11 @@ function Movie() {
           <h1 className="text-4xl text-green-700 text-center font-semibold">Movie</h1>
           <div className="flow-root">
             <div className="my-4 block text-center px-4 py-2">
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleSubmit(onSubmit)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <input 
                   type="text"
                   placeholder='映画・キャスト検索'
-                  className="w-4/5 h-6 p-3 rounded-lg border-black-dotted　text-2xl" 
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
                   {...register("name")}
                 />
                 <button type="submit" className="bg-indigo-700 font-semibold text-white py-2 px-4 rounded hover:bg-red-500 focus:outline-none focus:shadow-outline duration-1000 m-2">検索</button>
@@ -114,10 +114,11 @@ function Movie() {
           <h1 className="text-4xl text-green-700 text-center font-semibold">Movie</h1>
           <div className="flow-root">
             <div className="my-4 block text-center px-4 py-2">
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleSubmit(onSubmit)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <input 
                   type="text"
-                  className="w-4/5 h-6 p-3 rounded-lg border-black-dotted" 
+                  placeholder='映画・キャスト検索'
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
                   {...register("name")}
                 />
                 <button type="submit" className="bg-indigo-700 font-semibold text-white py-2 px-4 rounded hover:bg-red-500 focus:outline-none focus:shadow-outline duration-1000 m-2">検索</button>
