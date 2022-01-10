@@ -2,10 +2,15 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.202.3/containers/docker-existing-dockerfile
 {
 	"name": "React greenmail",
-	"runArgs": ["--init"],
+	// "runArgs": ["--init"],
+
+	// "dockerComposeFile": "docker-compose.yml",
+	// "service": "workspace",
+	// "workspaceFolder": "/usr/src",
+	// "dockerFile": "../Dockerfile"
 
 	// Sets the run context to one level up instead of the .devcontainer folder.
-	"context": "..",
+	// "context": "..",
 
 	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
 	"dockerFile": "../Dockerfile",

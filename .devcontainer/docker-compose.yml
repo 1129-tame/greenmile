@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  gcloud:
+    build: gcloud
+    image: google/cloud-sdk:latest
+    tty: true
+    volumes:
+      - /src:/src:cached
+  workspace:
+    build: workspace
+    tty: true
+    volumes: 
+      - /src:/user/src
