@@ -6,17 +6,15 @@ steps:
   args: ['push', 'gcr.io/greenmail-337601/greenmile/my-image']
   
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: 'gcloud'
-  args: ['compute', 'instances', 'create-with-container', 'my-vm-name', '--container-image', 'gcr.io/greenmail-337601/greenmile/my-image']
-  env:
-  - 'CLOUDSDK_COMPUTE_REGION=us-central1'
-  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+  entrypoint: 'bash'
+  args: ['-c', 'gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy']
+timeout: '1600s'
 
-- name: 'gcr.io/cloud-builders/yarn'
-  args: ['install']
+# - name: 'gcr.io/cloud-builders/yarn'
+#   args: ['install']
 
-- name: 'gcr.io/cloud-builders/yarn'
-  args: ['run', 'build']
+# - name: 'gcr.io/cloud-builders/yarn'
+#   args: ['run', 'build']
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['app', 'deploy', 'app.yaml']
+# - name: 'gcr.io/cloud-builders/gcloud'
+#   args: ['app', 'deploy', 'app.yaml']
