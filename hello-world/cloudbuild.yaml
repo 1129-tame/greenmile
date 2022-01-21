@@ -1,6 +1,6 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/greenmail-337601/greenmile/my-image', '-f', '../', '.']
+  args: ['build', '-t', 'gcr.io/greenmail-337601/greenmile/my-image', '.']
 
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/greenmail-337601/greenmile/my-image']
