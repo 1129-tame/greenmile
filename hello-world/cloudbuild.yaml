@@ -13,7 +13,7 @@ steps:
   args: ['test']
 - name: node
   entrypoint: yarn
-  args: ['run', 'build', '../']
+  args: ['run', 'build', './hello-world']
 
 
 # - name: 'gcr.io/cloud-builders/yarn'
