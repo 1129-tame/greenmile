@@ -30,7 +30,7 @@ RUN npm install -g yarn
 #     && apt-get -y install --no-install-recommends graphviz
 
 
-RUN mkdir -p /workspaces/react-typescript/node_modules
+RUN mkdir -p /workspaces/greenmile/node_modules
 # package.jsonとyarn.lockを/usr/src/appにコピー
 COPY ["hello-world/package.json", "hello-world/yarn.lock", "./"]
 # パッケージをインストール
