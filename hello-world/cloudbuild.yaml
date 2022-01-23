@@ -16,7 +16,7 @@ steps:
 - name: node
   entrypoint: yarn
   args: ['run', 'build']
-  ENV: [NODE_OPTIONS=--openssl-legacy-provider]
+  env: [NODE_OPTIONS=--openssl-legacy-provider]
   dir: 'hello-world'
 
 
