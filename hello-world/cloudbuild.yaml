@@ -9,10 +9,9 @@ steps:
   entrypoint: yarn
   args: ['install']
   dir: 'hello-world'
-# - name: node
-#   entrypoint: yarn
-#   args: ['test']
-#   dir: 'hello-world'
+- name: node
+  entrypoint: yarn
+  dir: 'hello-world'
 - name: node
   entrypoint: yarn
   args: ['run', 'build']

@@ -57,7 +57,7 @@ function Movie() {
 
     // 映画検索api
     const onSubmit: SubmitHandler<Inputs> = (
-      data
+      data: {name: string}
     ) => {
       setExpression(data.name);
     }
