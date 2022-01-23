@@ -8,12 +8,15 @@ steps:
 - name: node
   entrypoint: yarn
   args: ['install']
+  dir: '/hello_world'
 - name: node
   entrypoint: yarn
   args: ['test']
+  dir: '/hello_world'
 - name: node
   entrypoint: yarn
-  args: ['run', 'build', './hello-world']
+  args: ['run', 'build']
+  dir: '/hello_world'
 
 
 # - name: 'gcr.io/cloud-builders/yarn'
