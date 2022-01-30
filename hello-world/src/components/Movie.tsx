@@ -3,13 +3,14 @@ import axios from 'axios';
 import { useForm, SubmitHandler } from "react-hook-form";
 import ReactPaginate from 'react-paginate';
 import MovieList from './MovieList';
+
 interface Inputs {
   name: string,
 }
 
 function Movie() {
   // const [movie, setMovie] = useState<MovieModel>();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<Inputs>();
   const [popMovies, setPopMovies] = useState<[]>([]); // 人気映画
   const [serchMovies, setSerchMovies] = useState<[]>([]); // 検索した映画
   const [expression, setExpression] = useState<string>(''); // 検索したワード
@@ -57,7 +58,7 @@ function Movie() {
 
     // 映画検索api
     const onSubmit: SubmitHandler<Inputs> = (
-      data: {name: string}
+      data
     ) => {
       setExpression(data.name);
     }
